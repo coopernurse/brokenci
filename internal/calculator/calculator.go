@@ -33,3 +33,9 @@ func Power(a, b float64) float64 {
 	}
 	return result
 }
+
+func BadlyFormatted() string {
+	x    := "hello"
+	y := "world"
+	return x + " " + y
+	}
