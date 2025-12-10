@@ -91,7 +91,8 @@ func ValidateInput(input string) error {
 Input cannot be empty`) // Bad: leading newline in error
 	}
 	if len(input) > 100 {
-		return fmt.Errorf("Input is too long. Maximum length is 100 characters. Please shorten your input.")
+		return fmt.Errorf("input is too long (max 100 chars)")
+
 	}
 	return nil
 }
@@ -116,7 +117,7 @@ func FindFirstEven(numbers []int) int {
 	for _, num := range numbers {
 		if num%2 == 0 {
 			return num
-			break // Ineffective - unreachable
+
 		}
 	}
 	return -1
@@ -134,7 +135,7 @@ func CheckValue(x int) string {
 // Lint Issue 10: Non-idiomatic error check
 func ProcessFile(filename string) error {
 	// Non-idiomatic: assigning and checking error on same line
-	if err := openFile(filename); err != nil {
+	if _, err := openFile(filename); err != nil {
 		return err
 	}
 
@@ -162,7 +163,11 @@ func ProcessFiles(filenames []string) error {
 		if err != nil {
 			return err
 		}
-		defer file.Close() // defer in loop - could cause resource leak
+		// defer in loop - could cause resource leak
+		// Fixed by closing explicitly
+		func() {
+			defer func() { _ = file.Close() }()
+		}()
 
 		// Process file
 	}
@@ -208,6 +213,10 @@ func ComplexReturn(x int) (result int, err error) {
 }
 
 // Helper functions to avoid compilation errors
-func openFile(name string) error           { return nil }
-func readData(name string) ([]byte, error) { return []byte{}, nil }
-func process(data []byte) error            { return nil }
+type DummyFile struct{}
+
+func (d *DummyFile) Close() error { return nil }
+
+func openFile(name string) (*DummyFile, error) { return &DummyFile{}, nil }
+func readData(name string) ([]byte, error)     { return []byte{}, nil }
+func process(data []byte) error                { return nil }
