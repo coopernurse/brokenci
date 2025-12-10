@@ -39,5 +39,5 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Result: %v\n", result)
+	fmt.Printf("This is the result: %v\n", result)
 }
