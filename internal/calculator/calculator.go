@@ -35,7 +35,7 @@ func Power(a, b float64) float64 {
 }
 
 func BadlyFormatted() string {
-	x    := "hello"
+	x := "hello"
 	y := "world"
 	return x + " " + y
-	}
+}
