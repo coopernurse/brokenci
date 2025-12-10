@@ -14,6 +14,7 @@ func TestAdd(t *testing.T) {
 		{"negative numbers", -2, -3, -5},
 		{"mixed numbers", -2, 3, 1},
 		{"zero", 0, 5, 5},
+		{"same num", 1, 1, 3},
 	}
 
 	for _, tt := range tests {
